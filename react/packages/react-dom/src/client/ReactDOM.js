@@ -329,8 +329,7 @@ ReactWork.prototype._onCommit = function (): void {
     );
     callback();
   }
-};
-
+}; // @lh ReactRoot其实 就是一个 reactFiberRoot
 function ReactRoot (
   container: Container,
   isConcurrent: boolean,
@@ -460,7 +459,7 @@ ReactGenericBatching.setBatchingImplementation(
 );
 
 let warnedAboutHydrateAPI = false;
-
+// 返回一个ReactRoot对象 
 function legacyCreateRootFromDOMContainer (
   container: DOMContainer,
   forceHydrate: boolean,
@@ -527,7 +526,7 @@ function legacyRenderSubtreeIntoContainer (
   // member of intersection type." Whyyyyyy.
   let root: Root = (container._reactRootContainer: any);
   if (!root) {
-    // Initial mount
+    // Initial mount @lh  这里的root._internalRoot就是一个ReactRoot。
     root = container._reactRootContainer = legacyCreateRootFromDOMContainer(
       container,
       forceHydrate,
@@ -539,7 +538,7 @@ function legacyRenderSubtreeIntoContainer (
         originalCallback.call(instance);
       };
     }
-    // Initial mount should not be batched.
+    // Initial mount should not be batched.  children是一个react组件 比如 ReactDOM.render('<APP />' ,document.querySelector('#root'))中的 <App/>
     DOMRenderer.unbatchedUpdates(() => {
       if (parentComponent != null) {
         root.legacy_renderSubtreeIntoContainer(

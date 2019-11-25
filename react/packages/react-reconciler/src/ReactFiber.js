@@ -93,7 +93,7 @@ export type Fiber = {|
   // alternate versions of the tree. We put this on a single object for now to
   // minimize the number of objects created during the initial render.
 
-  // Tag identifying the type of fiber.
+  // Tag identifying the type of fiber. @lh 标记不同的组件类型 class cpmponent 或者 functional component
   tag: WorkTag,
 
   // Unique identifier of this child.
@@ -106,8 +106,8 @@ export type Fiber = {|
   // The resolved function/class/ associated with this fiber.
   type: any,
 
-  // The local state associated with this fiber.
-  stateNode: any,
+  // The local state associated with this fiber. @lh dom节点实例 或者 class component实例或者 functional component就没有这个值
+  stateNode: any, 
 
   // Conceptual aliases
   // parent : Instance -> return The parent happens to be the same as the
@@ -118,7 +118,7 @@ export type Fiber = {|
   // The Fiber to return to after finishing processing this one.
   // This is effectively the parent, but there can be multiple parents (two)
   // so this is only the parent of the thing we're currently processing.
-  // It is conceptually the same as the return address of a stack frame.
+  // It is conceptually the same as the return address of a stack frame. @lh 指向他在Fiber节点树种的'parent',用来在处理完这个节点之后向上返回
   return: Fiber | null,
 
   // Singly Linked List Tree Structure.
@@ -131,14 +131,14 @@ export type Fiber = {|
   ref: null | (((handle: mixed) => void) & {_stringRef: ?string}) | RefObject,
 
   // Input is the data coming into process this fiber. Arguments. Props.
-  pendingProps: any, // This type will be more specific once we overload the tag.
-  memoizedProps: any, // The props used to create the output.
+  pendingProps: any, // This type will be more specific once we overload the tag. @lh 更新后的props
+  memoizedProps: any, // The props used to create the output. @lh 更新前的props
 
   // A queue of state updates and callbacks.
-  updateQueue: UpdateQueue<any> | null,
+  updateQueue: UpdateQueue<any> | null, // @lh 该Fiber对应的组件产生的Update会存放在这个队列。
 
-  // The state used to create the output
-  memoizedState: any,
+  // The state used to create the output @lh 老state
+  memoizedState: any, 
 
   // A linked-list of contexts that this fiber depends on
   firstContextDependency: ContextDependency<mixed> | null,
@@ -151,7 +151,7 @@ export type Fiber = {|
   // before its child fibers are created.
   mode: TypeOfMode,
 
-  // Effect
+  // Effect @lh 副作用
   effectTag: SideEffectTag,
 
   // Singly linked list fast path to the next fiber with side-effects.
@@ -164,10 +164,10 @@ export type Fiber = {|
   lastEffect: Fiber | null,
 
   // Represents a time in the future by which this work should be completed.
-  // Does not include work found in its subtree.
+  // Does not include work found in its subtree. @lh 过期时间
   expirationTime: ExpirationTime,
 
-  // This is used to quickly determine if a subtree has no pending changes.
+  // This is used to quickly determine if a subtree has no pending changes. @lh 子节点更新的过期时间
   childExpirationTime: ExpirationTime,
 
   // This is a pooled version of a Fiber. Every fiber that gets updated will

@@ -185,7 +185,7 @@ function cloneUpdateQueue<State>(
   };
   return queue;
 }
-// 应用创建更新的地点
+// @lh 应用创建更新的地点
 export function createUpdate(expirationTime: ExpirationTime): Update<*> {
   return {
     expirationTime: expirationTime,

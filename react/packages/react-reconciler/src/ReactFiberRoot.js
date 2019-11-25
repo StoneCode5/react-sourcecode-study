@@ -111,8 +111,8 @@ export function createFiberRoot(
   let root;
   if (enableSchedulerTracing) {
     root = ({
-      current: uninitializedFiber,
-      containerInfo: containerInfo,
+      current: uninitializedFiber, //@lh 当前应用对应的Fiber对象
+      containerInfo: containerInfo, //@lh 就是挂载的那一个dom节点
       pendingChildren: null,
 
       earliestPendingTime: NoWork,
@@ -126,13 +126,13 @@ export function createFiberRoot(
       pendingCommitExpirationTime: NoWork,
       finishedWork: null,
       timeoutHandle: noTimeout,
-      context: null,
+      context: null, // @Lh 不常用
       pendingContext: null,
-      hydrate,
-      nextExpirationTimeToWorkOn: NoWork,
+      hydrate, //@lh 是否需要融合
+      nextExpirationTimeToWorkOn: NoWork, //@lh 这一次更新的时候,执行的是哪一个优先级的任务
       expirationTime: NoWork,
       firstBatch: null,
-      nextScheduledRoot: null,
+      nextScheduledRoot: null, //@lh root之间的链表结构
 
       interactionThreadID: unstable_getThreadID(),
       memoizedInteractions: new Set(),
