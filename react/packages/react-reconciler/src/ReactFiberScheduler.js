@@ -1615,7 +1615,7 @@ function retrySuspendedRoot(
     requestWork(root, rootExpirationTime);
   }
 }
-// 
+// 根据传入的fiber 找到 RootFiber
 function scheduleWorkToRoot(fiber: Fiber, expirationTime): FiberRoot | null {
   recordScheduleUpdate();
 

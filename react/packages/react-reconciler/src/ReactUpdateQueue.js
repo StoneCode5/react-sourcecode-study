@@ -151,7 +151,7 @@ if (__DEV__) {
 
 export function createUpdateQueue<State>(baseState: State): UpdateQueue<State> {
   const queue: UpdateQueue<State> = {
-    baseState,
+    baseState,  //@lh 每次操作完更新之后的'state'
     firstUpdate: null,
     lastUpdate: null,
     firstCapturedUpdate: null,
@@ -168,7 +168,7 @@ function cloneUpdateQueue<State>(
   currentQueue: UpdateQueue<State>,
 ): UpdateQueue<State> {
   const queue: UpdateQueue<State> = {
-    baseState: currentQueue.baseState,
+    baseState: currentQueue.baseState, // @lh 更新后的state
     firstUpdate: currentQueue.firstUpdate,
     lastUpdate: currentQueue.lastUpdate,
 
@@ -189,12 +189,12 @@ function cloneUpdateQueue<State>(
 export function createUpdate(expirationTime: ExpirationTime): Update<*> {
   return {
     expirationTime: expirationTime,
-
+    // @lh 值可能为 UpdateState ReplaceState ForceState CaptureState 0 | 1 | 2 | 3
     tag: UpdateState,
-    payload: null,
+    payload: null, //@lh 执行更新
     callback: null,
 
-    next: null,
+    next: null, // @lh 指向下一个更新
     nextEffect: null,
   };
 }
@@ -214,7 +214,7 @@ function appendUpdateToQueue<State>(
 }
 
 export function enqueueUpdate<State>(fiber: Fiber, update: Update<State>) {
-  // Update queues are created lazily.
+  // Update queues are created lazily. @lh 
   const alternate = fiber.alternate;
   let queue1;
   let queue2;

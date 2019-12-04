@@ -320,6 +320,7 @@ export function getPublicRootInstance(
   }
   switch (containerFiber.child.tag) {
     case HostComponent:
+      
       return getPublicInstance(containerFiber.child.stateNode);
     default:
       return containerFiber.child.stateNode;

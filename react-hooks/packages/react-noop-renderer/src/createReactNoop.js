@@ -911,7 +911,7 @@ function createReactNoop(reconciler: Function, useMutation: boolean) {
 
       function logFiber(fiber: Fiber, depth) {
         log(
-          '  '.repeat(depth) +
+          '  '.repeat(depth) + 
             '- ' +
             // need to explicitly coerce Symbol to a string
             (fiber.type ? fiber.type.name || fiber.type.toString() : '[root]'),
