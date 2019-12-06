@@ -4,7 +4,7 @@ import './index.css'
 // import App from './App';
 
 // 批量更新的demo
-// import App from './demos/batchedUpdates'
+import App from './demos/batchedUpdates'
 
 // IndeterminateComponent demo
 // import App from './demos/IndeterminateComponent'
@@ -15,4 +15,4 @@ import './index.css'
 // error demo
 // import App from './demos/error'
 
-ReactDOM.render(<div>test</div>, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById('root'))

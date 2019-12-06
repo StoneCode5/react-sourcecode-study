@@ -336,7 +336,7 @@ function unstable_scheduleCallback(callback, deprecated_options) {
 
   // Insert the new callback into the list, ordered first by expiration, then
   // by insertion. So the new callback is inserted any other callback with
-  // equal expiration.
+  // equal expiration.@lh firstCallbackNode 是一个 环状 双向 链表的 表头, 这个地方是按expirationTime从小到大连接起来，如果有相等的，就将最新的插到已存在相等的节点的后面。
   if (firstCallbackNode === null) {
     // This is the first callback in the list.
     firstCallbackNode = newNode.next = newNode.previous = newNode;

@@ -1856,7 +1856,7 @@ function scheduleCallbackWithExpirationTime(
   callbackExpirationTime = expirationTime;
   const currentMs = now() - originalStartTimeMs;
   const expirationTimeMs = expirationTimeToMs(expirationTime);
-  const timeout = expirationTimeMs - currentMs;
+  const timeout = expirationTimeMs - currentMs; //@ 过期时间
   callbackID = scheduleDeferredCallback(performAsyncWork, {timeout});
 }
 
@@ -1963,10 +1963,10 @@ function requestCurrentTime() {
   return currentSchedulerTime;
 }
 
-// requestWork is called by the scheduler whenever a root receives an update.
+// requestWork is called by the scheduler whenever a root receives an update. 
 // It's up to the renderer to call renderRoot at some point in the future.
 function requestWork(root: FiberRoot, expirationTime: ExpirationTime) {
-  addRootToSchedule(root, expirationTime);
+  addRootToSchedule(root, expirationTime); //@lh 把root节点加入到调度队列中 
   if (isRendering) {
     // Prevent reentrancy. Remaining work will be scheduled at the end of
     // the currently rendering batch.
@@ -1995,11 +1995,11 @@ function requestWork(root: FiberRoot, expirationTime: ExpirationTime) {
 
 function addRootToSchedule(root: FiberRoot, expirationTime: ExpirationTime) {
   // Add the root to the schedule.
-  // Check if this root is already part of the schedule.
+  // Check if this root is already part of the schedule. @lh if成功是 之前没有进入过调度过程
   if (root.nextScheduledRoot === null) {
-    // This root is not already scheduled. Add it.
+    // This root is not already scheduled. Add it.  
     root.expirationTime = expirationTime;
-    if (lastScheduledRoot === null) {
+    if (lastScheduledRoot === null) {   //@Lh 在一个时间片内，没有将更新执行完就被浏览器的任务所打断了，然后浏览器的任务生成了一个新的更新就出出现root.nextScheduleRoot指向自己。
       firstScheduledRoot = lastScheduledRoot = root;
       root.nextScheduledRoot = root;
     } else {
@@ -2008,13 +2008,13 @@ function addRootToSchedule(root: FiberRoot, expirationTime: ExpirationTime) {
       lastScheduledRoot.nextScheduledRoot = firstScheduledRoot;
     }
   } else {
-    // This root is already scheduled, but its priority may have increased.
+    // This root is already scheduled, but its priority may have increased. @lh 之前进入过调度
     const remainingExpirationTime = root.expirationTime;
     if (
       remainingExpirationTime === NoWork ||
       expirationTime < remainingExpirationTime
     ) {
-      // Update the priority.
+      // Update the priority. @lh 保证 root的 expirationTime 是所有任务中优先级最高的 
       root.expirationTime = expirationTime;
     }
   }

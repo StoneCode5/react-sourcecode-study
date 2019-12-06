@@ -8,9 +8,9 @@ export default class BatchedDemo extends React.Component {
 
   handleClick = () => {
     // 主动`batchedUpdates`
-    // setTimeout(() => {
-    //   this.countNumber()
-    // }, 0)
+    setTimeout(() => {
+      this.countNumber()
+    }, 0)
 
     // setTimeout中没有`batchedUpdates`
     // setTimeout(() => {
@@ -18,7 +18,7 @@ export default class BatchedDemo extends React.Component {
     // }, 0)
 
     // 事件处理函数自带`batchedUpdates`
-    this.countNumber()
+    // this.countNumber()
   }
 
   countNumber() {
