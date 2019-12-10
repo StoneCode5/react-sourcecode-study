@@ -446,6 +446,7 @@ var requestAnimationFrameWithTimeout = function(callback) {
     localClearTimeout(rAFTimeoutID);
     callback(timestamp);
   });
+   //@lh 下面是预防requestAnimationFrameWithTimeout在100ms之内都没有被调用，就取消localRequestAnimationFrame，直接用现在的时间调用callback，这地方的callback就是animationTick
   rAFTimeoutID = localSetTimeout(function() {
     // cancel the requestAnimationFrame
     localCancelAnimationFrame(rAFID);
@@ -574,10 +575,12 @@ if (typeof window !== 'undefined' && window._schedMock) {
     var currentTime = getCurrentTime();
 
     var didTimeout = false;
+    // 说明浏览器更新动画，用于用户反馈已经大于1帧的时间了
     if (frameDeadline - currentTime <= 0) {
       // There's no time left in this idle period. Check if the callback has
       // a timeout and whether it's been exceeded.
       if (prevTimeoutTime !== -1 && prevTimeoutTime <= currentTime) {
+        // @lh 说明任务已经过期，强制执行
         // Exceeded the timeout. Invoke the callback even though there's no
         // time left.
         didTimeout = true;
